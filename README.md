@@ -1,149 +1,162 @@
-# angular-webpack
+Coolshare Pub/Sub for Angular
+===========================
 
-[![Dependency Status](https://david-dm.org/preboot/angular-webpack/status.svg)](https://david-dm.org/preboot/angular-webpack#info=dependencies) [![devDependency Status](https://david-dm.org/preboot/angular-webpack/dev-status.svg)](https://david-dm.org/preboot/angular-webpack#info=devDependencies)
-[![Join the chat at https://gitter.im/preboot/angular-webpack](https://badges.gitter.im/preboot/angular-webpack.svg)](https://gitter.im/preboot/angular-webpack?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+By Mark Qian 3/2017 (markqian@hotmail.com)
 
-A complete, yet simple, starter for Angular v2+ using Webpack.
+The demo page: http://angularpubsub.coolshare.surge.sh
 
-This seed repo serves as an Angular starter for anyone looking to get up and running with Angular and TypeScript fast. Using [Webpack](http://webpack.github.io/) for building our files and assisting with boilerplate. We're also using Protractor for our end-to-end story and Karma for our unit tests.
-* Best practices in file and application organization for [Angular](https://angular.io/).
-* Ready to go build system using [Webpack](https://webpack.github.io/docs/) for working with [TypeScript](http://www.typescriptlang.org/).
-* Testing Angular code with [Jasmine](http://jasmine.github.io/) and [Karma](http://karma-runner.github.io/).
-* Coverage with [Istanbul](https://github.com/gotwarlost/istanbul)
-* End-to-end Angular code using [Protractor](https://angular.github.io/protractor/).
-* Stylesheets with [SASS](http://sass-lang.com/) (not required, it supports regular css too).
-* Error reported with [TSLint](http://palantir.github.io/tslint/) and [Codelyzer](https://github.com/mgechev/codelyzer).
-* Documentation with [TypeDoc](http://typedoc.org/).
+Description:
 
->Warning: Make sure you're using the latest version of Node.js and NPM
+	Common ways to communicate between modules of your application using core Angular functionality include:
 
-### Quick start
+    - Using services
+    - A module can be injected into another module
+    - Using events
+    - By assigning models on $rootScope
+    - Directly between controllers, using $parent, $$childHead, $$nextSibling, etc.
+    - Directly between controllers, using ControllerAs, or other forms of inheritance
+    - More...
+    
+    There are three categories: 
+    	- global (such as rootScope) or relative (like parent)
+    	- events
+    	- DI
+    	
+    The problem with first two categories is that you have to hard code the reference of parties. This is really bad 
+    as things changing during development and it is hard to be tested.
+    
+    To target the problem, Angular provides a powerful mean, DI, to isolate service producers and consumers. 
+    Even though DI provides some degree of isolation, it uses references(the machine addresses) to represent dependencies,
+    which reduces a lot of potential on flexibility. 
+    
+    My point is that to achieve the better flexibility, the application level logic including module relation such as dependencies 
+    between modules should not reside in codes. They are the "spirit" of the application just like human being mind should be 
+    isolated/extracted from the body (codes of modules). DI in Angular can not achieve this since all the logic is represented by 	references.  
+    
+    An ideal flexible application should be built into two parts: a container with all the modules 
+    in your layout and the logic that make the modules work together. It will be perfect if the logic can be
+    extracted out of codes (container) and loaded as needed (at runtime!).
+    	  
+    My "different approach" is point-to-point publish/subscribe with dependency out of codes as plain text. 
+    
+    You may say, wait a minute: Angular has built-in environment for publish/subscribe - the emit and broadcast. 
+    If you don't use broadcast heavily, it might be OK. It will become a performance issue if you have a huge scope 
+    hierarchy and use publish/subscribe as your major mean for communication between modules or any DOM components. 
+    The broadcasting is really overkill for most cases. Instead, straight point to point invocation is enough for many of us.
 
-```bash
-# clone our repo
-$ git clone https://github.com/preboot/angular-webpack.git my-app
+The key features:
 
-# change directory to your app
-$ cd my-app
+ - You can publish topics from both javascript and JSX
+ - You can specify any event to trigger the publishing
+ - Macro Key Words allow you to publish with data you specified.
+ 
 
-# install the dependencies with npm
-$ npm install
+Instructions to use:
 
-# start the server
-$ npm start
-```
-go to [http://localhost:8080](http://localhost:8080) in your browser.
+ A). publish a topic in two ways:
+ 
+ 	a). publish from javascript. To publish a topic in javascript, 
+ 	    you need to do the following:
+ 	    
+ 	    //Import
+ 	    import {PubSubManager} from './PubSubManager/PubSubManager'
+ 	    
+ 	    PubSubManager.Instance.publish("/MyTopic1", {"data":{"name":"John"}});
+ 	    
+ 	    
+ 	    where the second parameter of the "publish" method is "options" which contains the 
+ 	    data you like to pass with the topic.
+ 	    
+ 	b). publish from HTML. To publish a topic in HTML, 
+ 	    you need to do the following:
+ 	    
+ 	    //declare the "Publisher" in ngModel
+ 	    import { Publisher }  from './PubSubManager/Publisher';
 
-# Table of Contents
+		@NgModule({
+		  imports:      [ BrowserModule ],
+		  declarations: [ Publisher],
+		  bootstrap:    [ AppComponent ]
+		})
+	
+		//in your template	
+		<button publisher="{'topic':'/RightPane/Botton/dh', 'options':{'dh':10}}">Button1</button>
+		<a publisher="{'topic':'/InsidePane/Link/fg','event':'mouseover'}">Link1</a>
+      
+      where the attribute "options", optional, contains the data you want to pass with the topic.
+      The content contained by "options" needs to be in a JSON format which will be evaluated into a javascript object.
+      
+      The "event" attribute is optional and the default is "click".
 
-* [Getting Started](#getting-started)
-    * [Dependencies](#dependencies)
-    * [Installing](#installing)
-    * [Developing](#developing)
-    * [Testing](#testing)
-    * [Production](#production)
-    * [Documentation](#documentation)
-* [Frequently asked questions](#faq)
-* [TypeScript](#typescript)
-* [License](#license)
+      Macro Key Words:
+      ***************
+      
+        1). ___VALUE___ - this key word pointing to the value of the contained element. For example
+           
+	           <select publisher="{'topic':'/RightPane/Dropdown/bg', 'options':{'bgColor':'___VALUE___'}}">
+	            	<option value="#ff0000">Red</option>
+	            	<option value="#00ff00">Green</option>
+	            	<option value="#0000ff">Blue</option>
+            	</select>
+	           
+	          The example above indicate the "bgColor" in the options will be set to the value of select when a change
+	          event occurs.        
+               
+  B). subscribe/unsubscribe a topic
+  
+    To subscribe a topic, you need to do the following:
+ 	    
+ 	    //Import
+ 	    import {PubSubManager} from './PubSubManager/PubSubManager';
+ 	    
+ 	    //In constructor
+ 	   	var topic = "/LeftPane/Botton/bg";
+ 	   	
+ 	   	//subscribe the topic and save the id return
+	    self.subscriptionMap[topic] = PubSubManager.Instance.subscribe(topic, function(options:any) {
+	    	PubSubManager.Instance.log("LeftPane received topic "+topic+" and options="+JSON.stringify(options));
+	    	self.bg = options.color;
+	    });
+	    
+	    //...
+	    
+	    //unsubscribe later
+	    var topic = "/LeftPane/Botton/bg";
+	    PubSubManager.Instance.unsubscribe(topic, self.subscriptionMap[topic]);
+	    
+  
+  C). To run the sample code, you need to 
 
-# Getting Started
+		1). download it from 
+		
+		    https://github.com/coolshare/CoolshareAngularPubSub/archive/master.zip
+		    
+		    and unzip it to, say c:\CoolshareAngularPubSub
+		    
+		    
+		2). Prepare required environment
+		
+		    - install node.js
+		    - install required lib by running
+		       cd  c:\CoolshareAngularPubSub
+		       npm install
+		       
+		3). Start the server and browser by
+		
+		    npm start
+		         
+		
+		    You should see a browser page is opened at http://localhost:3000
+		    
+		Click each component on the page and the result will be shown in the console.
+		
+		Have fun!
 
-## Dependencies
-
-What you need to run this app:
-* `node` and `npm` (Use [NVM](https://github.com/creationix/nvm))
-* Ensure you're running Node (`v6.x.x`+) and NPM (`3.x.x`+)
-
-## Installing
-
-* `fork` this repo
-* `clone` your fork
-* `npm install` to install all dependencies
-
-## Developing
-
-After you have installed all dependencies you can now start developing with:
-
-* `npm start`
-
-It will start a local server using `webpack-dev-server` which will watch, build (in-memory), and reload for you. The application can be checked at `http://localhost:8080`.
-
-As an alternative, you can work using Hot Module Replacement (HMR):
-
-* `npm run start:hmr`
-
-And you are all set! You can now modify your components on the fly without having to reload the entire page.
-
-## Testing
-
-#### 1. Unit Tests
-
-* single run: `npm test`
-* live mode (TDD style): `npm run test-watch`
-
-#### 2. End-to-End Tests (aka. e2e, integration)
-
-* single run:
-  * in a tab, *if not already running!*: `npm start`
-  * in a new tab: `npm run webdriver-start`
-  * in another new tab: `npm run e2e`
-* interactive mode:
-  * instead of the last command above, you can run: `npm run e2e-live`
-  * when debugging or first writing test suites, you may find it helpful to try out Protractor commands without starting up the entire test suite. You can do this with the element explorer.
-  * you can learn more about [Protractor Interactive Mode here](https://github.com/angular/protractor/blob/master/docs/debugging.md#testing-out-protractor-interactively)
-
-## Production
-
-To build your application, run:
-
-* `npm run build`
-
-You can now go to `/dist` and deploy that to your server!
-
-## Documentation
-
-You can generate api docs (using [TypeDoc](http://typedoc.org/)) for your code with the following:
-
-* `npm run docs`
-
-# FAQ
-
-#### Do I need to add script / link tags into index.html ?
-
-No, Webpack will add all the needed Javascript bundles as script tags and all the CSS files as link tags. The advantage is that you don't need to modify the index.html every time you build your solution to update the hashes.
-
-#### How to include external angular libraries ?
-
-It's simple, just install the lib via npm and import it in your code when you need it. Don't forget that you need to configure some external libs in the [bootstrap](https://github.com/preboot/angular-webpack/blob/master/src/main.ts) of your application.
-
-#### How to include external css files such as bootstrap.css ?
-
-Just install the lib and import the css files in [vendor.ts](https://github.com/preboot/angular-webpack/blob/master/src/vendor.ts). For example this is how to do it with bootstrap:
-
-```sh
-npm install bootstrap@next --save
-```
-
-And in [vendor.ts](https://github.com/preboot/angular-webpack/blob/master/src/vendor.ts) add the following:
-
-```ts
-import 'bootstrap/dist/css/bootstrap.css';
-```
-
-# TypeScript
-
-> To take full advantage of TypeScript with autocomplete you would have to use an editor with the correct TypeScript plugins.
-
-## Use a TypeScript-aware editor
-
-We have good experience using these editors:
-
-* [Visual Studio Code](https://code.visualstudio.com/)
-* [Webstorm 11+](https://www.jetbrains.com/webstorm/download/)
-* [Atom](https://atom.io/) with [TypeScript plugin](https://atom.io/packages/atom-typescript)
-* [Sublime Text](http://www.sublimetext.com/3) with [Typescript-Sublime-Plugin](https://github.com/Microsoft/Typescript-Sublime-plugin#installation)
-
-# License
-
-[MIT](/LICENSE)
+  D). To install it into your React application, you need to 
+  
+     1). npm install coolshare_angular_pub_sub --save
+     
+     2). Follow the instructions in A). B). above to use it in your application.
+     
+     
+Go Mark's home page http://MarkQian.com to see more.
