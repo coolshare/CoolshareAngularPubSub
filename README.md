@@ -154,7 +154,7 @@ Instructions to use:
 
   D). To install it into your React application, you need to 
   
-     1). npm install coolshare_angular_pub_sub --save
+     1). npm install coolshare_angular_pubsub --save
      
      2). Follow the instructions in A). B). above to use it in your application.
      
