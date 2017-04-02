@@ -146,7 +146,7 @@ Instructions to use:
 		    npm start
 		         
 		
-		    You should see a browser page is opened at http://localhost:3000
+		    Then point your browser to http://localhost:8080
 		    
 		Click each component on the page and the result will be shown in the console.
 		
