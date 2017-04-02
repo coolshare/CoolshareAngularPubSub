@@ -127,19 +127,23 @@ Instructions to use:
   
   C). To run the sample code, you need to 
 
-		1). download it from 
+		0). Prepare required environment
 		
-		    https://github.com/coolshare/CoolshareAngularPubSub/archive/master.zip
+		    you need to install node.js
 		    
-		    and unzip it to, say c:\CoolshareAngularPubSub
-		    
-		    
-		2). Prepare required environment
+		  
+		1). Download it by
 		
-		    - install node.js
-		    - install required lib by running
-		       cd  c:\CoolshareAngularPubSub
-		       npm install
+		    git clone https://github.com/coolshare/CoolshareAngularPubSub.git CoolshareAngularPubSub
+		    
+		    then 
+		    
+		    cd CoolshareAngularPubSub
+		    
+		2). Do installation
+		         
+			npm install
+		       
 		       
 		3). Start the server and browser by
 		
