@@ -46,7 +46,7 @@ Description:
 
 The key features:
 
- - You can publish topics from both javascript and JSX
+ - You can publish topics from both javascript components and HTML templates
  - You can specify any event to trigger the publishing
  - Macro Key Words allow you to publish with data you specified.
  
@@ -55,7 +55,7 @@ Instructions to use:
 
  A). publish a topic in two ways:
  
- 	a). publish from javascript. To publish a topic in javascript, 
+ 	a). publish from javascript (components). To publish a topic in javascript, 
  	    you need to do the following:
  	    
  	    //Import
@@ -67,7 +67,7 @@ Instructions to use:
  	    where the second parameter of the "publish" method is "options" which contains the 
  	    data you like to pass with the topic.
  	    
- 	b). publish from HTML. To publish a topic in HTML, 
+ 	b). publish from HTML (templates). To publish a topic in HTML, 
  	    you need to do the following:
  	    
  	    //declare the "Publisher" in ngModel
