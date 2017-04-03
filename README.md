@@ -54,8 +54,12 @@ The key features:
 Instructions to use:
 
  A). publish a topic in two ways:
- 
- 	a). publish from javascript (components). To publish a topic in javascript, 
+    
+	0).install this package:
+	
+		npm install coolshare_angular_pubsub --save
+    
+ 	1). publish from javascript (components). To publish a topic in javascript, 
  	    you need to do the following:
  	    
  	    //Import
@@ -67,7 +71,7 @@ Instructions to use:
  	    where the second parameter of the "publish" method is "options" which contains the 
  	    data you like to pass with the topic.
  	    
- 	b). publish from HTML (templates). To publish a topic in HTML, 
+ 	2). publish from HTML (templates). To publish a topic in HTML, 
  	    you need to do the following:
  	    
  	    //declare the "Publisher" in ngModel
