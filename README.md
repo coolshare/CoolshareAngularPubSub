@@ -167,5 +167,15 @@ Instructions to use:
      
      2). Follow the instructions in A). B). above to use it in your application.
      
+         Note: instead of 
+         
+             import {PubSubManager} from './PubSubManager/PubSubManager';
+             import { Publisher }  from './PubSubManager/Publisher';
+             
+         you need to 
+         
+             import {PubSubManager} from 'PubSubManager/PubSubManager';
+             import { Publisher }  from 'PubSubManager/Publisher';
+     
      
 Go Mark's home page http://MarkQian.com to see more.

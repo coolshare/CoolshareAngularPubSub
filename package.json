@@ -1,6 +1,6 @@
 {
   "name": "coolshare_angular_pubsub",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "license": "MIT",
   "private": false,
   "scripts": {
@@ -34,6 +34,7 @@
     "@angular/platform-browser": "4.0.0",
     "@angular/platform-browser-dynamic": "4.0.0",
     "@angular/router": "4.0.0",
+    "angular-core": "0.0.5",
     "core-js": "^2.4.1",
     "ng2-bootstrap": "^1.6.1",
     "reflect-metadata": "^0.1.3",
@@ -98,14 +99,13 @@
     "patter",
     "communication"
   ],
-  "author": {
-    "name": "Mark Qian",
-    "email": "markqian@hotmail.com",
-    "url": "http://markqian.com"
-  },
+  "author": "Mark Qian <markqian@hotmail.com> (http://markqian.com)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/coolshare/CoolshareAngularPubSub.git"
+    "url": "git+https://github.com/coolshare/CoolshareAngularPubSub.git"
   },
-  "homepage": "https://angularpubsub.coolshare.surge.sh"
+  "homepage": "https://angularpubsub.coolshare.surge.sh",
+  "bugs": {
+    "url": "https://github.com/coolshare/CoolshareAngularPubSub/issues"
+  }
 }
