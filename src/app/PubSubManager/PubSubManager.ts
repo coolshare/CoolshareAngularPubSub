@@ -126,19 +126,8 @@ export class PubSubManager {
 	}
 	
 	publish(topicName:string, options:any={}) {
-		//console.debug("enter publish:"+topicName)
-		//if (topicName=="/applicationService/loadApplications") {
-		//	debugger
-		//}
 		let topic:Topic = this.topicMap[topicName];
-		
-		//if (debug>0 && topicName.indexOf("/debug")<0) {
-		//	debugInfo.addEvent(topicName, options);	
-			
-		//}
-		
-		if (topic === undefined) {
-			
+		if (topic === undefined) {			
 			this.topicMap[topicName] = new Topic(
 					topicName);
 			
@@ -155,15 +144,12 @@ export class PubSubManager {
 					continue;
 				}
 			}
-			//console.log("  ===>process sub=" + sub.id)
-			// options.sub = sub;
+
 			if (sub.param) {
 				options = Object.assign({}, options, sub.param);
 			}
 
 			if (sub.callback) {
-				//console.log("  invoke sub: id=" + sub.id + " callback="
-						//+ sub.callback.toString().substring(0, 190));
 				var target = window;
 				if (sub.owner && window[sub.owner]) {
 					target = window[sub.owner];
@@ -174,8 +160,6 @@ export class PubSubManager {
 				var item = this.handlerMap[sub.owner];
 				item.method.apply(item.owner, options);
 			} else {
-				//console.log("  invoke sub: id=" + sub.id + " owner="
-						//+ sub.owner + " handler=" + sub.handler)
 				if (sub.owner && window[sub.owner]) {
 					if (sub.handler && window[sub.owner][sub.handler]) {
 						window[sub.owner][sub.handler].apple(
@@ -221,12 +205,6 @@ export class PubSubManager {
 		if (this.loggerId===undefined) {
 			return;
 		}
-		//if (this.logger===undefined) {
-		//	this.logger = ("#"+this.loggerId);
-		//}
-		
-		//??this.logger.val(function(_, val){return val + "\n\n\n"+msg; }); 
-		//??this.logger[0].scrollTop = this.logger[0].scrollHeight;
 	}
 	
 	getRandomColor() {
