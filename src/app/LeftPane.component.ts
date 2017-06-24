@@ -1,5 +1,5 @@
 import { Component, NgZone  } from '@angular/core';
-import {PubSubManager} from './PubSubManager/PubSubManager'
+import {pm} from './PubSubManager/PubSubManager'
 
 
 @Component({
@@ -32,20 +32,20 @@ export class LeftPaneComponent {
 		var self = this;
 		self.zone = zone;
 		
-	    self.subscriptionMap["/RightPane/Botton/dh"] = PubSubManager.Instance.subscribe("/RightPane/Botton/dh", function(options:any) {
-	    	PubSubManager.Instance.log("LeftPane received topic /RightPane/Botton/dh and options="+JSON.stringify(options));
+	    self.subscriptionMap["/RightPane/Botton/dh"] = pm.subscribe("/RightPane/Botton/dh", function(options:any) {
+	    	pm.log("LeftPane received topic /RightPane/Botton/dh and options="+JSON.stringify(options));
 		    self.zone.run(() => {
 				self.hh += options.dh
 	    	}); 
 		});  
 		
-		self.subscriptionMap["/InsidePane/Link/fg"] = PubSubManager.Instance.subscribe("/InsidePane/Link/fg", function(options:any) {
-	    	PubSubManager.Instance.log("LeftPane received topic /InsidePane/Link/fg and options="+JSON.stringify(options));
-		    self.fg = PubSubManager.Instance.getRandomColor();
+		self.subscriptionMap["/InsidePane/Link/fg"] = pm.subscribe("/InsidePane/Link/fg", function(options:any) {
+	    	pm.log("LeftPane received topic /InsidePane/Link/fg and options="+JSON.stringify(options));
+		    self.fg = pm.getRandomColor();
 		}); 
 		
-		self.subscriptionMap["/RightPane/Dropdown/bg"] = PubSubManager.Instance.subscribe("/RightPane/Dropdown/bg", function(options:any) {
-	    	PubSubManager.Instance.log("LeftPane received topic /RightPane/Dropdown/bg and options="+JSON.stringify(options));
+		self.subscriptionMap["/RightPane/Dropdown/bg"] = pm.subscribe("/RightPane/Dropdown/bg", function(options:any) {
+	    	pm.log("LeftPane received topic /RightPane/Dropdown/bg and options="+JSON.stringify(options));
 		    self.bg = options.bgColor;
 		}); 
 		
@@ -55,12 +55,12 @@ export class LeftPaneComponent {
 	handleCheckbox(e:any) {
 		var self = this;
 		if (e.target.checked) {
-			self.subscriptionMap["/Inside/append/text"] = PubSubManager.Instance.subscribe("/Inside/append/text", function(options:any) {
-		    	PubSubManager.Instance.log("LeftPane received topic /Inside/append/text and options="+JSON.stringify(options));
+			self.subscriptionMap["/Inside/append/text"] = pm.subscribe("/Inside/append/text", function(options:any) {
+		    	pm.log("LeftPane received topic /Inside/append/text and options="+JSON.stringify(options));
 		    	self.name = self.originalName+" "+options.text;
 		    });
 		} else {
-			PubSubManager.Instance.unsubscribe("/Inside/append/text", self.subscriptionMap["/Inside/append/text"]);
+			pm.unsubscribe("/Inside/append/text", self.subscriptionMap["/Inside/append/text"]);
 		}
 	}    
 }

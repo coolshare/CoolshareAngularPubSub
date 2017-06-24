@@ -28,18 +28,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 import { Directive, ElementRef } from '@angular/core';
-
-import {PubSubManager} from './PubSubManager'
+import {pm} from './PubSubManager'
 
 
 @Directive({ selector: '[publisher]' })
 export class Publisher {
-    pubSubManager: PubSubManager;
     element:any;
     options:any;
     
 	constructor(el: ElementRef) {
-		this.pubSubManager = PubSubManager.Instance;
 		this.element = el.nativeElement;
 		var ttt:string = "("+this.element.attributes.publisher.nodeValue+")";
 		this.options = eval(ttt);
@@ -53,7 +50,7 @@ export class Publisher {
 			var ttt:string = "("+self.element.attributes.publisher.nodeValue+")";
 			self.options = eval(ttt);
 			self.handleMacroWords(self.options.options);
-			self.pubSubManager.publish(self.options.topic, self.options.options||{});
+			pm.publish(self.options.topic, self.options.options||{});
 		}
   }
   

@@ -59,9 +59,7 @@ class Topic {
 }
 
 
-export class PubSubManager {
-
-	private static _instance: PubSubManager;
+class PubSubManager {
 	topicMap: Map<string, Topic>;
 	handlerMap: Map<string, Function>;
 	loggerId:string;
@@ -71,11 +69,6 @@ export class PubSubManager {
 		this.topicMap = new Map<string, Topic>();
 		this.handlerMap = new Map<string, Function>();
 	}
-	
-	public static get Instance()
-    {
-        return this._instance || (this._instance = new this());
-    }
     
 	subscribe(topicNameList:any, options:any={}) {
 		options = options || {};
@@ -216,3 +209,4 @@ export class PubSubManager {
 	    return color;
 	}
 }
+export let pm = new PubSubManager();

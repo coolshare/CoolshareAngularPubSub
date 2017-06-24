@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {PubSubManager} from './PubSubManager/PubSubManager'
+import {pm} from './PubSubManager/PubSubManager'
 
 @Component({
  
@@ -35,15 +35,15 @@ export class RightPaneComponent {
 	constructor() {
 		var self = this;
 		var topic = "/LeftPane/Botton/bg";
-	    self.subscriptionMap[topic] = PubSubManager.Instance.subscribe(topic, function(options:any) {
-	    	PubSubManager.Instance.log("LeftPane received topic "+topic+" and options="+JSON.stringify(options));
+	    self.subscriptionMap[topic] = pm.subscribe(topic, function(options:any) {
+	    	pm.log("LeftPane received topic "+topic+" and options="+JSON.stringify(options));
 	    	self.bg = options.color;
 	    });
 	    
 	    topic = "/InsidePane/Link/fg";
-	    self.subscriptionMap[topic] = PubSubManager.Instance.subscribe(topic, function(options:any) {
-	    	PubSubManager.Instance.log("LeftPane received topic "+topic+" and options="+JSON.stringify(options));
-		    self.fg = PubSubManager.Instance.getRandomColor();
+	    self.subscriptionMap[topic] = pm.subscribe(topic, function(options:any) {
+	    	pm.log("LeftPane received topic "+topic+" and options="+JSON.stringify(options));
+		    self.fg = pm.getRandomColor();
 		});  
 		
 		self.originalName = self.name;
@@ -52,12 +52,12 @@ export class RightPaneComponent {
  	handleCheckbox(e:any) {
 		var self = this;
 		if (e.target.checked) {
-			self.subscriptionMap["/Inside/append/text"] = PubSubManager.Instance.subscribe("/Inside/append/text", function(options:any) {
-		    	PubSubManager.Instance.log("RightPane received topic /Inside/append/text and options="+JSON.stringify(options));
+			self.subscriptionMap["/Inside/append/text"] = pm.subscribe("/Inside/append/text", function(options:any) {
+		    	pm.log("RightPane received topic /Inside/append/text and options="+JSON.stringify(options));
 		    	self.name = self.originalName+" "+options.text;
 		    });
 		} else {
-			PubSubManager.Instance.unsubscribe("/Inside/append/text", self.subscriptionMap["/Inside/append/text"]);
+			pm.unsubscribe("/Inside/append/text", self.subscriptionMap["/Inside/append/text"]);
 		}
 	}   
 }
