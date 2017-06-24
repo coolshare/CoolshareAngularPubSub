@@ -63,9 +63,9 @@ Instructions to use:
  	    you need to do the following:
  	    
  	    //Import
- 	    import {PubSubManager} from './PubSubManager/PubSubManager'
+ 	    import {pm} from './PubSubManager/PubSubManager'
  	    
- 	    PubSubManager.Instance.publish("/MyTopic1", {"data":{"name":"John"}});
+ 	    pm.publish("/MyTopic1", {"data":{"name":"John"}});
  	    
  	    
  	    where the second parameter of the "publish" method is "options" which contains the 
@@ -111,14 +111,14 @@ Instructions to use:
     To subscribe a topic, you need to do the following:
  	    
  	    //Import
- 	    import {PubSubManager} from './PubSubManager/PubSubManager';
+ 	    import {pm} from './PubSubManager/PubSubManager';
  	    
  	    //In constructor
  	   	var topic = "/LeftPane/Botton/bg";
  	   	
  	   	//subscribe the topic and save the id return
-	    self.subscriptionMap[topic] = PubSubManager.Instance.subscribe(topic, function(options:any) {
-	    	PubSubManager.Instance.log("LeftPane received topic "+topic+" and options="+JSON.stringify(options));
+	    self.subscriptionMap[topic] = pm.subscribe(topic, function(options:any) {
+	    	pm.log("LeftPane received topic "+topic+" and options="+JSON.stringify(options));
 	    	self.bg = options.color;
 	    });
 	    
@@ -126,7 +126,7 @@ Instructions to use:
 	    
 	    //unsubscribe later
 	    var topic = "/LeftPane/Botton/bg";
-	    PubSubManager.Instance.unsubscribe(topic, self.subscriptionMap[topic]);
+	    pm.unsubscribe(topic, self.subscriptionMap[topic]);
 	    
   
   C). To run the sample code, you need to 
@@ -169,12 +169,12 @@ Instructions to use:
      
          Note: instead of 
          
-             import {PubSubManager} from './PubSubManager/PubSubManager';
+             import {pm} from './PubSubManager/PubSubManager';
              import { Publisher }  from './PubSubManager/Publisher';
              
          you need to 
          
-             import {PubSubManager} from 'PubSubManager/PubSubManager';
+             import {pm} from 'PubSubManager/PubSubManager';
              import { Publisher }  from 'PubSubManager/Publisher';
      
      
